@@ -1,0 +1,31 @@
+#  Local .terraform directories
+**/.terraform/*
+.vscode/
+# .tfstate files
+**/*.tfstate
+**/*.tfstate.*
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+**/backend.tfvars
+**/secrets.tfvars
+
+**/.vs/*
+**/.vscode
+
+**/.kube*
+**/.helm*
+
+# Decrypted helm secrets files
+**.yaml.dec
+
+**/.backups/**
+.m2/
+.local
+.envrc
+.terraform
+.vagrant
+.SECRET.env
+config/secrets.yaml
+config/certs/**

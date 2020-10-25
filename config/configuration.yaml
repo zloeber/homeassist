@@ -1,0 +1,187 @@
+#-------------------------------------------
+# Original Repo : https://github.com/CCOSTAN/Home-AssistantConfig
+# Read all about this and more at https://vCloudInfo.com
+######################################################################################################
+
+homeassistant:
+  name: Bear Stone
+  latitude: !secret homeassistant_latitude
+  longitude: !secret homeassistant_longitude
+  elevation: !secret homeassistant_elevation
+  unit_system: imperial
+  time_zone: America/Chicago
+  external_url: !secret external_url
+  internal_url: !secret internal_url
+  # customize: !include_dir_merge_named customize
+  customize_domain:
+    automation:
+      initial_state: 'on'
+  packages: !include_dir_named packages
+  auth_providers:
+   - type: homeassistant
+   - type: trusted_networks
+     trusted_networks:
+       - 192.168.1.0/24
+#      - !secret external_ip
+     allow_bypass_login: true
+ # - type: legacy_api_password
+ #   api_password: !secret http_password
+
+system_health:
+
+# #Note: The influxdb runs along side the HA DB.  It does not replace it.  influxdb is used to grab data for Grafana.
+# influxdb:
+#   host: 192.168.1.10
+#   database: home_assistant
+
+config:
+# cloud:
+#   alexa:
+#     filter:
+#       include_entities:
+#         - group.exterior_lights
+#         - group.interior_lights
+#         - group.landscaping
+#         - group.outdoor_seasonal
+#         - group.master_bathroom_accents
+#         - group.kitchen_accents
+#         - light.bedroom
+#         - light.bedroom_lights
+#         - light.den_lights
+#         - light.dinette_lights
+#         - light.dining_room_lights
+#         - light.foyer_lights
+#         - light.garage_lights
+#         - light.hallway_lights
+#         - light.kitchen_lights
+#         - light.living_room_accents
+#         - light.living_room_lights
+#         - light.office_lights
+#         - light.outdoor_front_lights
+#         - light.outdoor_pool_lights
+#         - light.upstairs_lights
+#       include_domains:
+#         - switch
+#         - cover
+#         - input_boolean
+#         - camera
+#     # entity_config:
+#     #   light.kitchen_lights:
+#     #     display_categories: LIGHT
+
+http:
+  # server_port: !secret http_port
+  # ssl_certificate: !secret ssl_certificate
+  # ssl_key: !secret ssl_key
+  ip_ban_enabled: True
+  login_attempts_threshold: 5
+
+frontend:
+  extra_html_url:
+    - /local/custom_ui/state-card-floorplan.html
+
+# panel_custom:
+#   - name: floorplan
+#     sidebar_title: Alarm Panel
+#     sidebar_icon: mdi:security-home
+#     url_path: floorplan
+#     config:
+#       hide_app_toolbar:
+#       config: /local/custom_ui/floorplan/floorplan.yaml
+
+discovery:
+
+updater:
+  include_used_components: true
+
+sun:
+
+light: !include light_groups.yaml
+
+# ifttt:
+#   key: !secret ifttt_key
+
+# logbook:
+#   exclude:
+#     entities:
+#       - media_player.LivingRoomCC
+#       - py.warnings
+#       # - sensor.small_garage_status
+#       # - sensor.large_garage_status
+#       # - sensor.small_garage_time_in_state
+#       # - sensor.large_garage_time_in_state
+#       # - sensor.large_garage_wifi_signal_strength
+#       # - sensor.small_garage_wifi_signal_strength
+#       # - sensor.small_garage_reflection_rate
+#       # - sensor.large_garage_reflection_rate
+#       # - sensor.pi_hole_ads_blocked_today
+#       # - sensor.pi_hole_ads_percentage_blocked_today
+#       # - sensor.pi_hole_dns_queries_today
+#       - sensor.time
+#       - sensor.date
+#       - sensor.floorplan_date
+#       - sensor.floorplan_time
+#       - sensor.ha_uptime
+
+# history:
+#   include:
+#     domains:
+#       - sensor
+#       - switch
+#       - media_player
+#       - light
+#       - binary_sensor
+#       - cover
+
+#   exclude:
+#     entities:
+#      - sensor.date
+#      - sensor.epson_xp_7100_series_uptime
+#      - sensor.pi_hole_ads_blocked_today
+#      - sensor.pi_hole_ads_percentage_blocked_today
+#      - sensor.pi_hole_dns_queries_today
+#      - sensor.floorplan_date
+#      - sensor.floorplan_time
+#      - sensor.ha_uptime
+#      - sensor.time
+
+logger: !include logger.yaml
+recorder: !include recorder.yaml
+
+mqtt:
+  broker: 127.0.0.1
+  port: 1883
+  client_id: home-assistant-loeber
+  username: !secret MQTT_username
+  password: !secret MQTT_password
+
+# zwave:
+#  usb_path: /dev/ttyACM0
+#  config_path: /srv/hass/hass_venv/lib/python3.4/site-packages/libopenzwave-0.3.1-py3.4-linux-armv7l.egg/config
+
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
+
+climate:
+  platform: nest
+
+# tts:
+#   - platform: amazon_polly
+#     aws_access_key_id: !secret aws_access_key_ID
+#     aws_secret_access_key: !secret aws_secret_access_key
+#     region_name: 'us-east-1'
+#     text_type: ssml
+#     voice: Joanna
+#     cache: True
+
+#homekit: !include homekit.yaml
+#group: !include_dir_merge_named group
+device_tracker: !include_dir_merge_list device_tracker
+sensor: !include_dir_merge_list sensor
+#automation: !include_dir_merge_list automation
+#scene: !include_dir_merge_list scene
+#switch: !include_dir_merge_list switch
+#script: !include_dir_merge_named script
+#input_boolean: !include_dir_merge_named input_boolean
+#shell_command: !include_dir_merge_named shell_command

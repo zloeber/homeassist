@@ -1,0 +1,16 @@
+.git/
+build-harness/
+bin/
+**/node_modules/
+public/
+test/
+.local/
+images/
+templates/
+wip/
+.tool-versions
+LICENSE
+README.MD
+Dockerfile
+.vagrant
+.SECRET.env
